@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
+using System;
 
 public class Player : MonoBehaviour
 {
@@ -15,6 +17,10 @@ public class Player : MonoBehaviour
     public float hungerValue = 100f;
     public float hungerDecreasePerSec = 10f;
 
+    //candy meter
+    public Slider candySlider;
+    public float sugarVal;
+
     public float candyValue = 0f;
     public float timeSinceCandy = 10f;
 
@@ -26,7 +32,9 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>(); 
+        rb = GetComponent<Rigidbody2D>();
+        candySlider.maxValue = sugarVal;
+        candySlider.value = sugarVal; 
     }
 
     // Update is called once per frame
@@ -37,6 +45,7 @@ public class Player : MonoBehaviour
         hungerText.text = ((int)hungerValue).ToString();
         hungerValue -= hungerDecreasePerSec * Time.fixedDeltaTime;
 
+        candySlider.value -= hungerDecreasePerSec * Time.fixedDeltaTime;
 
         if (candyValue != 0f) candyValue -= timeSinceCandy * Time.fixedDeltaTime;
         if (candyValue < 0f) candyValue = 0f;
@@ -92,29 +101,38 @@ public class Player : MonoBehaviour
 
         if (collider.gameObject.name == "butterfingerCandy(Clone)")
         {
+            if (candySlider.value < 70f) candySlider.value += 30f;
+            else candySlider.value = 100f;
             hungerValue += 30f;
             candyValue = 40f;
             speed = 100f;
 
             ++candiesEaten;
-            collider.gameObject.SetActive(false);
+            
+
+
         }
         if (collider.gameObject.name == "tricksyCandy(Clone)")
         {
-            hungerValue += 30f;
+            if (candySlider.value < 70f) candySlider.value += 30f;
+            else candySlider.value = 100f; hungerValue += 30f;
             candyValue = 40f;
             speed = 400f;
 
             ++candiesEaten;
-            collider.gameObject.SetActive(false);
+            
+
         }
-        if (collider.gameObject.name == "twisty(Clone)")
+        if (collider.gameObject.name == "twistyCandy(Clone)")
         {
+            if (candySlider.value < 70f) candySlider.value += 30f;
+            else candySlider.value = 100f;
             hungerValue += 30f;
             candyValue = 40f;
 
             ++candiesEaten;
-            collider.gameObject.SetActive(false);
+            
+
 
         }
 
