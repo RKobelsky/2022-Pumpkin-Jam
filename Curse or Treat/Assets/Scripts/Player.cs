@@ -8,6 +8,18 @@ using System;
 
 public class Player : MonoBehaviour
 {
+
+    public AudioSource neighborMusic;
+
+    public bool levelSong = true;
+
+    public void LevelMusic() {
+        levelSong = true;
+        neighborMusic.Play();
+    }
+
+    public GameOverScreen GameOverScreen;
+
     Rigidbody2D rb;
 
     float speed = 200f;
@@ -57,11 +69,7 @@ public class Player : MonoBehaviour
     {
         if (gameOver)
         {
-
-            if (Input.GetMouseButtonDown(0))
-            {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-            }
+            GameOverScreen.Setup((int)distance);
             return;
         }
         if (candyValue == 0f)

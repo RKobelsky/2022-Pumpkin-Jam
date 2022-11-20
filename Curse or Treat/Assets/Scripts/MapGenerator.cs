@@ -129,8 +129,6 @@ public class MapGenerator : MonoBehaviour
     {
         obstacle.transform.position = new Vector3(referenceX + Random.Range(
             minObstacleSpacing, maxObstacleSpacing), Random.Range(minObstacleY, maxObstacleY), 0);
-        obstacle.transform.localScale = new Vector3(obstacle.transform.localScale.x, 
-            Random.Range(minObstacleScaleY, maxObstacleY), obstacle.transform.localScale.z);
     }
 
     void SetTransformCandy(GameObject candy, float referenceX)
