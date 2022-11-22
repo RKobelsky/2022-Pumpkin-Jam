@@ -12,7 +12,7 @@ public class GameOverScreen : MonoBehaviour
 
     public void Setup(int score) {
         gameObject.SetActive(true);
-        pointsText.text = score.ToString() + " POINTS";
+        pointsText.text = "DISTANCE: " + score.ToString() + "m";
     }
 
     public void RestartButton() {
@@ -21,5 +21,6 @@ public class GameOverScreen : MonoBehaviour
 
     public void ExitButton() {
         SceneManager.LoadScene("Menu");
+        MenuMusic.instance.GetComponent<AudioSource>().Play();
     }
 }

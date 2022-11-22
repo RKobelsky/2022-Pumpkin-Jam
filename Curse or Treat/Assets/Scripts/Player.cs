@@ -9,14 +9,20 @@ using System;
 public class Player : MonoBehaviour
 {
 
+    public GameObject player;
+
+    public GameObject obstacle;
+    
+    public GameObject orangecandy;
+
+    public GameObject bluecandy;
+
+    public GameObject redcandy;
+
     public AudioSource neighborMusic;
 
     public bool levelSong = true;
 
-    public void LevelMusic() {
-        levelSong = true;
-        neighborMusic.Play();
-    }
 
     public GameOverScreen GameOverScreen;
 
@@ -47,6 +53,12 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         candySlider.maxValue = sugarVal;
         candySlider.value = sugarVal; 
+
+        player.SetActive(true);
+        redcandy.SetActive(true);
+        bluecandy.SetActive(true);
+        orangecandy.SetActive(true);
+        obstacle.SetActive(true);
     }
 
     // Update is called once per frame
@@ -65,11 +77,42 @@ public class Player : MonoBehaviour
         distance += distanceIncreasePerSecond * Time.fixedDeltaTime;
         time = Time.fixedDeltaTime;
     }
+
     void Update()
     {
         if (gameOver)
         {
             GameOverScreen.Setup((int)distance);
+
+            player.SetActive(false);
+
+            //destroy all game object clones once you die
+            foreach(GameObject o in GameObject.FindObjectsOfType<GameObject>())
+            {
+                if(o.name == "Obstacle(Clone)")
+                {
+                o.SetActive(false);
+                }
+
+                if(o.name == "tricksyCandy(Clone)")
+                {
+                o.SetActive(false);
+                }
+
+                if(o.name == "butterfingerCandy(Clone)")
+                {
+                o.SetActive(false);
+                }
+
+                if(o.name == "twistyCandy(Clone)")
+                {
+                o.SetActive(false);
+                }
+            }
+
+            neighborMusic.Pause();
+            levelSong = false;
+            
             return;
         }
         if (candyValue == 0f)
