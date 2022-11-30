@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Unity.VisualScripting;
 using System;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
@@ -31,7 +32,8 @@ public class Player : MonoBehaviour
     float speed = 200f;
     public bool gameOver = false;
 
-    public Text hungerText;
+    
+    public TextMeshProUGUI distanceText;
     public float hungerValue = 100f;
     public float hungerDecreasePerSec = 10f;
 
@@ -45,7 +47,7 @@ public class Player : MonoBehaviour
     //score
     public int candiesEaten = 0;
     public float distance = 0f;
-    public float distanceIncreasePerSecond = 1f;
+    public float distanceIncreasePerSecond = 4f;
     public float time = 0f;
 
     void Start()
@@ -66,7 +68,7 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         if (gameOver) return;
-        hungerText.text = ((int)hungerValue).ToString();
+        distanceText.text = ((int)distance).ToString();
         hungerValue -= hungerDecreasePerSec * Time.fixedDeltaTime;
 
         candySlider.value -= hungerDecreasePerSec * Time.fixedDeltaTime;
@@ -74,8 +76,13 @@ public class Player : MonoBehaviour
         if (candyValue != 0f) candyValue -= timeSinceCandy * Time.fixedDeltaTime;
         if (candyValue < 0f) candyValue = 0f;
 
-        distance += distanceIncreasePerSecond * Time.fixedDeltaTime;
+        distance += (distanceIncreasePerSecond * Time.fixedDeltaTime) * 10;
         time = Time.fixedDeltaTime;
+
+        if (candySlider.value <= 0)
+        {
+            gameOver = true;
+        }
     }
 
     void Update()
@@ -93,8 +100,16 @@ public class Player : MonoBehaviour
                 {
                 o.SetActive(false);
                 }
+                if (o.name == "mediumObstacle(Clone)")
+                {
+                    o.SetActive(false);
+                }
+                if (o.name == "largeObstacle(Clone)")
+                {
+                    o.SetActive(false);
+                }
 
-                if(o.name == "tricksyCandy(Clone)")
+                if (o.name == "tricksyCandy(Clone)")
                 {
                 o.SetActive(false);
                 }
@@ -144,7 +159,8 @@ public class Player : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collider)
     { 
-        if (collider.gameObject.name == "Obstacle(Clone)")
+        if (collider.gameObject.name == "Obstacle(Clone)" || 
+            collider.gameObject.name == "mediumObstacle(Clone)" || collider.gameObject.name == "largeObstacle(Clone)")
         {
             gameOver = true;
             rb.isKinematic = true;
@@ -159,8 +175,9 @@ public class Player : MonoBehaviour
             speed = 100f;
 
             ++candiesEaten;
-            
 
+
+            collider.gameObject.transform.position = new Vector2(collider.gameObject.transform.position.x, collider.gameObject.transform.position.y + 100);
 
         }
         if (collider.gameObject.name == "tricksyCandy(Clone)")
@@ -171,7 +188,7 @@ public class Player : MonoBehaviour
             speed = 400f;
 
             ++candiesEaten;
-            
+            collider.gameObject.transform.position = new Vector2(collider.gameObject.transform.position.x, collider.gameObject.transform.position.y + 100);
 
         }
         if (collider.gameObject.name == "twistyCandy(Clone)")
@@ -182,9 +199,9 @@ public class Player : MonoBehaviour
             candyValue = 40f;
 
             ++candiesEaten;
-            
 
 
+            collider.gameObject.transform.position = new Vector2(collider.gameObject.transform.position.x, collider.gameObject.transform.position.y + 100);
         }
 
     }

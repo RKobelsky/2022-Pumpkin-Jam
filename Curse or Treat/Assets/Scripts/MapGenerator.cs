@@ -18,6 +18,8 @@ public class MapGenerator : MonoBehaviour
     public GameObject obstacle4;
 
     public GameObject obstaclePrefab;
+    public GameObject medObstaclePrefab;
+    public GameObject largeObstaclePrefab;
 
     public float minObstacleY;
     public float maxObstacleY;
@@ -40,6 +42,8 @@ public class MapGenerator : MonoBehaviour
     public float maxCandyY;
     public float minCandySpacing;
     public float maxCandySpacing;
+
+   
 
     // Start is called before the first frame update
     void Start()
@@ -100,6 +104,7 @@ public class MapGenerator : MonoBehaviour
     {
         int rand = Random.Range(1, 4);
         GameObject candy;
+        candy = GameObject.Instantiate(twistyCandyPrefab);
 
         if (rand == 1)
         {
@@ -107,21 +112,44 @@ public class MapGenerator : MonoBehaviour
             SetTransformCandy(candy, referenceX);
             return candy;
         }
-        if (rand == 2)
+        else if (rand == 2)
         {
             candy = GameObject.Instantiate(tricksyCandyPrefab);
             SetTransformCandy(candy, referenceX);
             return candy;
         }
-        candy = GameObject.Instantiate(twistyCandyPrefab);
-        SetTransformCandy(candy, referenceX);
+        else if (rand == 3)
+        {
+            candy = GameObject.Instantiate(twistyCandyPrefab);
+            SetTransformCandy(candy, referenceX);
+        }
+        
+        
         return candy;
 
     }
     GameObject GenerateObstacle(float referenceX)
     {
-        GameObject obstacle = GameObject.Instantiate(obstaclePrefab);
-        SetTransform(obstacle, referenceX);
+        int rand = Random.Range(1, 4);
+        GameObject obstacle;
+        obstacle = GameObject.Instantiate(obstaclePrefab);
+
+        if (rand == 1)
+        {
+            obstacle = GameObject.Instantiate(obstaclePrefab);
+            SetTransform(obstacle, referenceX);
+        }
+        else if (rand == 2)
+        {
+            obstacle = GameObject.Instantiate(medObstaclePrefab);
+            SetTransform(obstacle, referenceX);
+        }
+        else
+        {
+            obstacle = GameObject.Instantiate(largeObstaclePrefab);
+            SetTransform(obstacle, referenceX);
+        }
+
         return obstacle;
     }
 

@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class GameOverScreen : MonoBehaviour
 {
-
+    
     public TMP_Text pointsText;
 
     public void Setup(int score) {
